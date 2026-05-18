@@ -1,67 +1,57 @@
+tasks = []
 
 def show_menu():
-    print("To-Do List")
-    print("1. Add task")
-    print("2. View Task")
+    print("\nTo-Do List")
+    print("1. Add Task")
+    print("2. View Tasks")
     print("3. Delete Task")
-    print("4. Quit")  
-tasks = []
-yr_choice= input('Enter Your Choice of Task: ')
-if yr_choice=="1":
-        print("you are into task add")
-elif yr_choice == "2":
-        print("you are into task view")
-elif yr_choice == "3":
-        print("you are into task delete")
-elif yr_choice == "4":
-        print(" Quitting, Goodbye")
-       
-else:
-        print("Invalid Choice")
+    print("4. Quit")
+
 def add_task():
-    task = input("Enter your task to add : ")
+    task = input("Enter your task to add: ")
     tasks.append(task)
     print(f"Task '{task}' added successfully!")
-    add_task()
-def view_tasks():
-     if yr_choice == "2":
-         view_tasks() 
-     elif len(tasks) == 0:
-        print("No tasks yet!")
-     else:
-        print("Your Tasks to Do")
-        for index, task in enumerate(tasks, start=1):
-            print(f"{index}. {task}")   
-        view_tasks()
-def delete_task():
-        if yr_choice == "3":
-           delete_task() 
-        elif len(tasks) == 0:
-            print("No task to Delete")
-        else:
-            d= int(input("Enter your task numebr to delete"))
-            removed= tasks.pop(d-1)
-            print(f"Task {removed} deleted successfully")
-            delete_task()
-def save_tasks():
-        if yr_choice == "4":
-           save_tasks()
-           print("Goodbye!")
-        else:
-             with open("tasks.txt", "w") as file:
-              for task in tasks:
-               file.write(task + "\n")
-              print("Tasks saved!")  
-              save_tasks()  
-# def make_lower(a):
-#     if any(char.isupper() for char in a):
-#         print("Capital letter found, converting to lowercase")
-#         return a.lower()
-#     else:
-#         print("You are good to go, no capitals found!")
-#         return a
 
-# text = input("Enter your inputs: ")
-# result = make_lower(text)
-# print("Final Version after review:", result)  
-show_menu()
+def view_tasks():
+    if len(tasks) == 0:
+        print("No tasks yet!")
+    else:
+        print("Your Tasks to Do:")
+        for index, task in enumerate(tasks, start=1):
+            print(f"{index}. {task}")
+
+def delete_task():
+    if len(tasks) == 0:
+        print("No task to delete!")
+    else:
+        view_tasks()
+        d = int(input("Enter your task number to delete: "))
+        if 1 <= d <= len(tasks):
+            removed = tasks.pop(d - 1)
+            print(f"Task '{removed}' deleted successfully!")
+        else:
+            print("Invalid task number!")
+
+def save_tasks():
+    with open("tasks.txt", "w") as file:
+        for task in tasks:
+            file.write(task + "\n")
+    print("Tasks saved!")
+
+# Main loop
+while True:
+    show_menu()
+    yr_choice = input("Enter Your Choice of Task: ")
+
+    if yr_choice == "1":
+        add_task()
+    elif yr_choice == "2":
+        view_tasks()
+    elif yr_choice == "3":
+        delete_task()
+    elif yr_choice == "4":
+        save_tasks()
+        print("Goodbye!")
+        break
+    else:
+        print("Invalid Choice!")
